@@ -4,10 +4,12 @@ import { ComponentProps } from 'react';
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   loading?: boolean;
   disabled?: boolean;
+  fullWidth?: boolean;
+  rounded?: 'default' | 'full' | 'lg' | '3xl';
   className?: string;
 }
 
@@ -18,44 +20,59 @@ export function Button({
   size = 'md',
   loading = false,
   disabled = false,
+  fullWidth = false,
+  rounded = 'full',
   className = '',
 }: ButtonProps) {
   const variantStyles = {
-    primary: 'bg-blue-600 active:bg-blue-700',
-    secondary: 'bg-gray-600 active:bg-gray-700',
-    outline: 'bg-transparent border-2 border-blue-600 active:bg-blue-50',
+    primary: 'bg-fadedOrange active:bg-fadedOrange/90',
+    secondary: 'bg-birch active:bg-birch/90',
+    outline: 'bg-transparent border-2 border-fadedOrange active:bg-fadedOrange/10',
+    ghost: 'bg-transparent active:bg-gray-100',
   };
 
   const sizeStyles = {
-    sm: 'px-3 py-2',
-    md: 'px-4 py-3',
-    lg: 'px-6 py-4',
+    sm: 'px-4 py-2',
+    md: 'px-6 py-3',
+    lg: 'px-8 py-4',
+    xl: 'px-10 py-4',
   };
 
   const textVariantStyles = {
     primary: 'text-white',
     secondary: 'text-white',
-    outline: 'text-blue-600',
+    outline: 'text-fadedOrange',
+    ghost: 'text-fadedOrange',
   };
 
   const textSizeStyles = {
     sm: 'text-sm',
     md: 'text-base',
     lg: 'text-lg',
+    xl: 'text-lg',
+  };
+
+  const roundedStyles = {
+    default: 'rounded-xl',
+    full: 'rounded-full',
+    lg: 'rounded-2xl',
+    '3xl': 'rounded-3xl',
   };
 
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled || loading}
-      className={`rounded-lg items-center justify-center ${variantStyles[variant]} ${sizeStyles[size]} ${
+      className={`${roundedStyles[rounded]} items-center justify-center ${variantStyles[variant]} ${sizeStyles[size]} ${
+        fullWidth ? 'w-full' : ''
+      } ${
         disabled ? 'opacity-50' : ''
       } ${className}`}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? '#3B82F6' : '#FFFFFF'} />
+        <ActivityIndicator color={variant === 'outline' || variant === 'ghost' ? '#FF8643' : '#FFFFFF'} />
       ) : (
-        <Text className={`${textVariantStyles[variant]} ${textSizeStyles[size]}`}>
+        <Text className={`font-semibold ${textVariantStyles[variant]} ${textSizeStyles[size]}`}>
           {title}
         </Text>
       )}

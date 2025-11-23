@@ -4047,7 +4047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-font@npm:^14.0.9, expo-font@npm:~14.0.9":
+"expo-font@npm:~14.0.9":
   version: 14.0.9
   resolution: "expo-font@npm:14.0.9"
   dependencies:
@@ -4057,6 +4057,21 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 672e7d674e889285f87dc5664f2c61caef8e6188c408738f62a5eb2f68ef7193be1477fb8b48a4a7d43bfede567e56952df1e11b4e9a375bc9fe69091e93cc6c
+  languageName: node
+  linkType: hard
+
+"expo-image@npm:~3.0.10":
+  version: 3.0.10
+  resolution: "expo-image@npm:3.0.10"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: f7af2701061aa47b890d37d8aaab06eb1bacc7936937a1d241d02e6df01da713e2614ef022e9cda81b72175d0041e83c3c5c772a76690e86cc5b279b53df18b0
   languageName: node
   linkType: hard
 
@@ -7185,7 +7200,8 @@ __metadata:
     expo: ~54.0.25
     expo-blur: ^15.0.7
     expo-constants: ^18.0.10
-    expo-font: ^14.0.9
+    expo-font: ~14.0.9
+    expo-image: ~3.0.10
     expo-linking: ^8.0.9
     expo-router: latest
     expo-splash-screen: ^31.0.11

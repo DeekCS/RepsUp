@@ -7,9 +7,9 @@ export default function Index() {
   const router = useRouter();
 
   useEffect(() => {
-    // Navigate to tabs after a brief moment
+    // Navigate to login screen
     const timeout = setTimeout(() => {
-      router.replace('/tabs');
+      router.replace('/auth/login');
     }, 1000);
 
     return () => clearTimeout(timeout);
