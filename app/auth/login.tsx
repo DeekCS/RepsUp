@@ -16,9 +16,12 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const handleSendOTP = () => {
-    // Simple static login - navigate to tabs
+    // Simple static login - navigate to verify OTP
     if (phoneNumber.length >= 10) {
-      router.replace('/tabs');
+      router.replace({
+        pathname: '/auth/verify-otp',
+        params: { phone: phoneNumber }
+      });
     }
   };
 
