@@ -31,6 +31,17 @@ export function PhoneInput({
       className={`bg-white rounded-3xl px-5 ${className}`}
       style={[styles.container, { flexDirection: "row" }]}
     >
+      <Text className="text-xl" style={{ lineHeight: 20 }}>
+        {countryFlag}
+      </Text>
+      <Text
+        className="text-base text-birch font-medium"
+        style={[{ lineHeight: 20 }]}
+      >
+        {countryCode}
+      </Text>
+          <View className="w-[1px] h-5 bg-gray-200" style={styles.divider} />
+
       <TextInput
         placeholder={placeholder}
         placeholderTextColor="#A79D95"
@@ -43,16 +54,7 @@ export function PhoneInput({
         style={[styles.input, { textAlign: 'left', writingDirection: 'ltr' }]}
         {...props}
       />
-      <View className="w-[1px] h-5 bg-gray-200" style={styles.divider} />
-      <Text className="text-xl" style={{ lineHeight: 20 }}>
-        {countryFlag}
-      </Text>
-      <Text
-        className="text-base text-birch font-medium"
-        style={[{ lineHeight: 20 }]}
-      >
-        {countryCode}
-      </Text>
+  
     </View>
   );
 }
