@@ -8,6 +8,14 @@
       "developmentClient": true,
       "distribution": "internal"
     },
+    "dev-device": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": false,
+        "resourceClass": "m-medium"
+      }
+    },
     "preview": {
       "distribution": "internal"
     },

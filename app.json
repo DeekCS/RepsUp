@@ -16,16 +16,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "ExpoLocalization_supportsRTL": true,
-        "ExpoLocalization_forcesRTL": false,
-        "CFBundleAllowMixedLocalizations": true,
-        "CFBundleLocalizations": [
-          "en",
-          "ar"
-        ],
         "ITSAppUsesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.kareem.deek.RepsUp"
+      "bundleIdentifier": "com.kareem.deek.RepsUp",
+      "appleTeamId": "X3HL44N32S"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,32 +28,18 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.kareem.deek.RepsUp",
-      "supportsRTL": true
+      "package": "com.kareem.deek.RepsUp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "supportsRTL": true,
-      "forcesRTL": false,
       "eas": {
         "projectId": "dc3b19b6-05cd-45fa-8538-008aacf4b403"
       }
     },
     "plugins": [
-      "expo-font",
-      [
-        "expo-localization",
-        {
-          "supportsRTL": true,
-          "forcesRTL": false,
-          "supportedLocales": [
-            "en",
-            "ar"
-          ]
-        }
-      ]
+      "expo-font"
     ]
   }
 }

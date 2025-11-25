@@ -10,12 +10,10 @@ import {
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useTranslation } from 'react-i18next';
 import { OtpInput, OtpInputRef } from 'react-native-otp-entry';
 import { Container, Spacer, Button } from '../../src/components/ui';
 
 export default function VerifyOTPScreen() {
-  const { t } = useTranslation();
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [countdown, setCountdown] = useState(60);
@@ -94,17 +92,17 @@ export default function VerifyOTPScreen() {
           <Container className="flex-1 justify-between pt-16 pb-10">
             {/* Header */}
             <View className="mt-8">
-              <Text className="text-white text-3xl font-bold mb-4 ">
-                {t('auth.verifyOtp.title')}
+              <Text className="text-white text-3xl font-bold mb-4">
+                Verify OTP
               </Text>
               <View className="mb-2">
-                <Text className="text-white text-base ">
-                  {t('auth.verifyOtp.subtitle', { phone: maskedPhone })}
+                <Text className="text-white text-base">
+                  Enter the code sent to {maskedPhone}
                 </Text>
               </View>
               <Pressable onPress={handleEditPhone}>
-                <Text className="text-fadedOrange font-semibold text-base ">
-                  {t('common.edit')}
+                <Text className="text-fadedOrange font-semibold text-base">
+                  Edit
                 </Text>
               </Pressable>
             </View>
@@ -162,16 +160,16 @@ export default function VerifyOTPScreen() {
                 <View className="mb-6">
                   {countdown > 0 ? (
                     <Text className="text-white text-sm text-center">
-                      {t('auth.verifyOtp.resendIn')} ({countdown}s)
+                      Resend code in ({countdown}s)
                     </Text>
                   ) : (
                     <View>
                       <Text className="text-white text-sm text-center mb-2">
-                        {t('auth.verifyOtp.didntReceive')}
+                        Didn't receive the code?
                       </Text>
                       <Pressable onPress={handleResendOTP}>
                         <Text className="text-fadedOrange font-semibold text-sm text-center">
-                          {t('auth.verifyOtp.resend')}
+                          Resend
                         </Text>
                       </Pressable>
                     </View>
@@ -180,7 +178,7 @@ export default function VerifyOTPScreen() {
 
                 {/* Verify Button */}
                 <Button
-                  title={t('auth.verifyOtp.verify')}
+                  title="Verify"
                   onPress={handleVerifyOTP}
                   variant="primary"
                   size="lg"

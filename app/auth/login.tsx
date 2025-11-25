@@ -9,13 +9,9 @@ import {
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
-import { useTranslation } from 'react-i18next';
-import { useRTL } from '@/src/hooks';
 import { Container, Spacer, Button, SocialButton, PhoneInput } from '../../src/components/ui';
 
 export default function LoginScreen() {
-  const { t } = useTranslation();
-  const { isRTL, getTextAlign } = useRTL();
   const [phoneNumber, setPhoneNumber] = useState('');
   const router = useRouter();
 
@@ -64,9 +60,8 @@ export default function LoginScreen() {
               <Container className="flex-1 justify-between pt-20 pb-10">
                 {/* Header */}
                 <View>
-                  <Text className="text-white text-2xl
-                  ">
-                    {t('auth.login.title')}
+                  <Text className="text-white text-2xl">
+                    Welcome
                   </Text>
                 </View>
 
@@ -74,14 +69,14 @@ export default function LoginScreen() {
                 <View>
                   {/* Motivational Text */}
                   <Text className="text-white text-2xl font-bold text-center mb-8 leading-tight">
-                    {t('auth.login.motivationalText')}
+                    Your fitness journey starts here
                   </Text>
 
                   {/* Phone Input */}
                   <PhoneInput
                     value={phoneNumber}
                     onChangeText={setPhoneNumber}
-                    placeholder={t('auth.login.phonePlaceholder')}
+                    placeholder="Enter phone number"
                     countryFlag="🇯🇴"
                     countryCode="+962"
                   />
@@ -90,7 +85,7 @@ export default function LoginScreen() {
 
                   {/* Send OTP Button */}
                   <Button
-                    title={t('auth.login.continueButton')}
+                    title="Continue"
                     onPress={handleSendOTP}
                     variant="primary"
                     size="lg"
@@ -103,8 +98,8 @@ export default function LoginScreen() {
                   {/* Divider */}
                   <View className="flex-row items-center">
                     <View className="flex-1 h-[1px] bg-white/30" />
-                    <Text className="text-white mx-4 text-base" style={{ writingDirection: isRTL ? 'rtl' : 'ltr' }}>
-                      {t('auth.login.socialLogin') || 'Or'}
+                    <Text className="text-white mx-4 text-base">
+                      Or
                     </Text>
                     <View className="flex-1 h-[1px] bg-white/30" />
                   </View>
@@ -127,7 +122,7 @@ export default function LoginScreen() {
 
                   {/* Terms and Privacy */}
                   <Text className="text-white text-center text-sm">
-                    {t('auth.login.termsText')}
+                    By continuing, you agree to our Terms of Service and Privacy Policy
                   </Text>
                 </View>
               </Container>

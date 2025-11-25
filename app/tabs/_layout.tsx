@@ -2,10 +2,8 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
-  const { t } = useTranslation();
   
   return (
     <Tabs
@@ -81,7 +79,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: t('tabs.home'),
+          title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "home" : "home-outline"} 
@@ -94,7 +92,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="progress"
         options={{
-          title: t('tabs.search'),
+          title: 'Search',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "search" : "search-outline"} 
@@ -130,7 +128,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: t('tabs.history'),
+          title: 'History',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "time" : "time-outline"} 
@@ -143,7 +141,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: t('tabs.profile'),
+          title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "person" : "person-outline"} 
