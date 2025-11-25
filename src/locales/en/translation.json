@@ -1,0 +1,72 @@
+{
+  "welcome": "Welcome to RepsUp",
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Login to continue your fitness journey",
+      "motivationalText": "The body achieves what the\nmind believes",
+      "phoneNumber": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "continueButton": "Continue",
+      "socialLogin": "Or continue with",
+      "termsText": "By continuing, you agree to our Terms of Service and Privacy Policy"
+    },
+    "verifyOtp": {
+      "title": "Verify Your Phone",
+      "subtitle": "Enter the code sent to {{phone}}",
+      "resend": "Resend Code",
+      "resendIn": "Resend code in",
+      "didntReceive": "Didn't receive the code?",
+      "verify": "Verify"
+    }
+  },
+  "tabs": {
+    "home": "Home",
+    "add": "Add Workout",
+    "history": "History",
+    "progress": "Progress",
+    "profile": "Profile"
+  },
+  "workout": {
+    "title": "Workouts",
+    "addNew": "Add New Workout",
+    "edit": "Edit Workout",
+    "delete": "Delete Workout",
+    "noWorkouts": "No workouts yet",
+    "exercise": "Exercise",
+    "sets": "Sets",
+    "reps": "Reps",
+    "weight": "Weight",
+    "duration": "Duration",
+    "notes": "Notes"
+  },
+  "profile": {
+    "settings": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications",
+    "about": "About",
+    "version": "Version",
+    "logout": "Logout"
+  },
+  "settings": {
+    "changeLanguage": "Change Language",
+    "english": "English",
+    "arabic": "Arabic"
+  }
+}

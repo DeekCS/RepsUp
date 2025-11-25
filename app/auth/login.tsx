@@ -9,16 +9,20 @@ import {
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { useRTL } from '@/src/hooks';
 import { Container, Spacer, Button, SocialButton, PhoneInput } from '../../src/components/ui';
 
 export default function LoginScreen() {
+  const { t } = useTranslation();
+  const { isRTL, getTextAlign } = useRTL();
   const [phoneNumber, setPhoneNumber] = useState('');
   const router = useRouter();
 
   const handleSendOTP = () => {
     // Simple static login - navigate to verify OTP
     if (phoneNumber.length >= 10) {
-      router.replace({
+      router.push({
         pathname: '/auth/verify-otp',
         params: { phone: phoneNumber }
       });
@@ -60,21 +64,24 @@ export default function LoginScreen() {
               <Container className="flex-1 justify-between pt-20 pb-10">
                 {/* Header */}
                 <View>
-                  <Text className="text-white text-2xl">Welcome</Text>
+                  <Text className="text-white text-2xl
+                  ">
+                    {t('auth.login.title')}
+                  </Text>
                 </View>
 
                 {/* Bottom Section */}
                 <View>
                   {/* Motivational Text */}
                   <Text className="text-white text-2xl font-bold text-center mb-8 leading-tight">
-                    The body achieves what the{'\n'}mind believes
+                    {t('auth.login.motivationalText')}
                   </Text>
 
                   {/* Phone Input */}
                   <PhoneInput
                     value={phoneNumber}
                     onChangeText={setPhoneNumber}
-                    placeholder="Enter phone number"
+                    placeholder={t('auth.login.phonePlaceholder')}
                     countryFlag="🇯🇴"
                     countryCode="+962"
                   />
@@ -83,7 +90,7 @@ export default function LoginScreen() {
 
                   {/* Send OTP Button */}
                   <Button
-                    title="Send OTP"
+                    title={t('auth.login.continueButton')}
                     onPress={handleSendOTP}
                     variant="primary"
                     size="lg"
@@ -96,7 +103,9 @@ export default function LoginScreen() {
                   {/* Divider */}
                   <View className="flex-row items-center">
                     <View className="flex-1 h-[1px] bg-white/30" />
-                    <Text className="text-white mx-4 text-base">Or</Text>
+                    <Text className="text-white mx-4 text-base" style={{ writingDirection: isRTL ? 'rtl' : 'ltr' }}>
+                      {t('auth.login.socialLogin') || 'Or'}
+                    </Text>
                     <View className="flex-1 h-[1px] bg-white/30" />
                   </View>
 
@@ -118,9 +127,7 @@ export default function LoginScreen() {
 
                   {/* Terms and Privacy */}
                   <Text className="text-white text-center text-sm">
-                    By Continuing, you agree to the{' '}
-                    <Text className="underline font-semibold">Terms of Service</Text>
-                    {'\n'}and <Text className="underline font-semibold">Privacy Policy</Text>.
+                    {t('auth.login.termsText')}
                   </Text>
                 </View>
               </Container>

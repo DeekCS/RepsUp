@@ -1,0 +1,72 @@
+{
+  "welcome": "مرحباً بك في رابس آب",
+  "common": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "submit": "إرسال",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح"
+  },
+  "auth": {
+    "login": {
+      "title": "مرحباً بعودتك",
+      "subtitle": "سجل دخولك لمتابعة رحلتك الرياضية",
+      "motivationalText": "الجسد يحقق ما\nيؤمن به العقل",
+      "phoneNumber": "رقم الهاتف",
+      "phonePlaceholder": "أدخل رقم هاتفك",
+      "continueButton": "متابعة",
+      "socialLogin": "أو تابع باستخدام",
+      "termsText": "بالمتابعة، أنت توافق على شروط الخدمة وسياسة الخصوصية"
+    },
+    "verifyOtp": {
+      "title": "تحقق من هاتفك",
+      "subtitle": "أدخل الرمز المرسل إلى {{phone}}",
+      "resend": "إعادة إرسال الرمز",
+      "resendIn": "إعادة إرسال الرمز في",
+      "didntReceive": "لم تستلم الرمز؟",
+      "verify": "تحقق"
+    }
+  },
+  "tabs": {
+    "home": "الرئيسية",
+    "add": "إضافة تمرين",
+    "history": "السجل",
+    "progress": "التقدم",
+    "profile": "الملف الشخصي"
+  },
+  "workout": {
+    "title": "التمارين",
+    "addNew": "إضافة تمرين جديد",
+    "edit": "تعديل التمرين",
+    "delete": "حذف التمرين",
+    "noWorkouts": "لا توجد تمارين بعد",
+    "exercise": "التمرين",
+    "sets": "مجموعات",
+    "reps": "تكرارات",
+    "weight": "الوزن",
+    "duration": "المدة",
+    "notes": "ملاحظات"
+  },
+  "profile": {
+    "settings": "الإعدادات",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "notifications": "الإشعارات",
+    "about": "حول",
+    "version": "الإصدار",
+    "logout": "تسجيل الخروج"
+  },
+  "settings": {
+    "changeLanguage": "تغيير اللغة",
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  }
+}

@@ -2,14 +2,18 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
+  const { t } = useTranslation();
+  
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: '#5B5FEF',
         tabBarInactiveTintColor: '#6B7280',
         headerShown: false,
+        // RTL is handled automatically by React Navigation based on I18nManager.isRTL
         tabBarStyle: {
           position: 'absolute',
           backgroundColor: Platform.OS === 'ios' ? 'transparent' : '#FFFFFF',
@@ -77,7 +81,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: t('tabs.home'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "home" : "home-outline"} 
@@ -90,7 +94,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="progress"
         options={{
-          title: 'Search',
+          title: t('tabs.search'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "search" : "search-outline"} 
@@ -126,7 +130,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: 'History',
+          title: t('tabs.history'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "time" : "time-outline"} 
@@ -139,7 +143,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t('tabs.profile'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "person" : "person-outline"} 

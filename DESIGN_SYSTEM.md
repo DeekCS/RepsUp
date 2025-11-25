@@ -32,7 +32,7 @@ The RepsUp app follows a comprehensive design system based on DM Sans typography
 
 #### Grid Components
 ```tsx
-import { Container, Row, Col, Spacer } from '@/components/ui';
+import { Container, Row, Col, Spacer } from '@/src/components/ui';
 
 // Container with 16px margins
 <Container>

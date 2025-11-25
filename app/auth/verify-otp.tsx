@@ -3,15 +3,19 @@ import {
   View,
   Text,
   Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { OtpInput, OtpInputRef } from 'react-native-otp-entry';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { Container, Spacer, Button } from '../../src/components/ui';
 
 export default function VerifyOTPScreen() {
+  const { t } = useTranslation();
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [countdown, setCountdown] = useState(60);
@@ -20,12 +24,14 @@ export default function VerifyOTPScreen() {
   const params = useLocalSearchParams();
   const phoneNumber = Array.isArray(params.phone) ? params.phone[0] : (params.phone || '81900');
 
-  // Mask phone number - show first digits and mask last 5 with stars
+  // Mask phone number: show country code + masked prefix to avoid confusion with OTP
   const getMaskedPhone = (phone: string) => {
-    const phoneStr = String(phone);
-    if (phoneStr.length <= 5) return phoneStr;
-    const visiblePart = phoneStr.slice(0, -5);
-    return `${visiblePart} *****`;
+    const digits = String(phone).replace(/\D/g, '');
+    if (digits.length <= 4) return digits;
+    // Show format like: +962 ••••••••1234 (country code + mostly masked + last 4)
+    const last4 = digits.slice(-4);
+    const countryCode = '+962';
+    return `${countryCode} ••••••••${last4}`;
   };
 
   const maskedPhone = getMaskedPhone(phoneNumber);
@@ -39,14 +45,14 @@ export default function VerifyOTPScreen() {
   }, [countdown]);
 
   const handleVerifyOTP = async () => {
-    if (otp.length === 5) {
-      setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        setIsLoading(false);
-        router.replace('/tabs');
-      }, 1500);
-    }
+    console.log('Verify pressed, OTP length:', otp.length);
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      console.log('Navigating to tabs...');
+      router.replace('/tabs');
+    }, 1500);
   };
 
   const handleResendOTP = () => {
@@ -76,32 +82,35 @@ export default function VerifyOTPScreen() {
       
       {/* Dark overlay */}
       <View className="flex-1 bg-black/60">
-        <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          bottomOffset={20}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          className="flex-1"
         >
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
           <Container className="flex-1 justify-between pt-16 pb-10">
-          {/* Header */}
-          <View className="mt-8">
-            <Text className="text-white text-3xl font-bold">Verification</Text>
-          </View>
-
-          {/* Middle Section - Pushed up */}
-          <View className="mb-20">
-                {/* Title and Description */}
-                <Text className="text-white text-2xl font-bold mb-1">
-                  Awesome Thanks
+            {/* Header */}
+            <View className="mt-8">
+              <Text className="text-white text-3xl font-bold mb-4 ">
+                {t('auth.verifyOtp.title')}
+              </Text>
+              <View className="mb-2">
+                <Text className="text-white text-base ">
+                  {t('auth.verifyOtp.subtitle', { phone: maskedPhone })}
                 </Text>
-                <View className="flex-row items-center  mb-8">
-                  <Text className="text-white text-base text-center">
-                    We have just Send an OTP to {maskedPhone}{' '}
-                  </Text>
-                  <Pressable onPress={handleEditPhone}>
-                    <Text className="text-fadedOrange font-semibold text-base mx-1">Edit</Text>
-                  </Pressable>
-                </View>
+              </View>
+              <Pressable onPress={handleEditPhone}>
+                <Text className="text-fadedOrange font-semibold text-base ">
+                  {t('common.edit')}
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* Middle Section - OTP Input */}
+            <View className="mb-20">
 
                 {/* OTP Input */}
                 <View className="mb-6">
@@ -119,6 +128,7 @@ export default function VerifyOTPScreen() {
                     theme={{
                       containerStyle: {
                         gap: 12,
+                        flexDirection: 'row',
                       },
                       pinCodeContainerStyle: {
                         backgroundColor: 'white',
@@ -132,6 +142,7 @@ export default function VerifyOTPScreen() {
                         color: '#3D3D26',
                         fontSize: 24,
                         fontFamily: 'DMSans-Bold',
+                        textAlign: 'center',
                       },
                       focusedPinCodeContainerStyle: {
                         borderColor: '#FF8643',
@@ -141,42 +152,48 @@ export default function VerifyOTPScreen() {
                     textInputProps={{
                       accessibilityLabel: 'One-Time Password',
                       testID: 'otp-input',
+                      autoCorrect: false,
+                      autoComplete: 'one-time-code',
                     }}
                   />
                 </View>
 
                 {/* Resend OTP */}
-                <View className="flex-row items-center justify-center mb-6">
-                  <Text className="text-white text-sm">
-                    Don't receive the OTP ?{' '}
-                  </Text>
-                  <Pressable onPress={handleResendOTP} disabled={countdown > 0}>
-                    <Text 
-                      className={`font-semibold text-sm ${
-                        countdown > 0 ? 'text-gray-400' : 'text-fadedOrange'
-                      }`}
-                    >
-                      Resend OTP {countdown > 0 && `(${countdown}s)`}
+                <View className="mb-6">
+                  {countdown > 0 ? (
+                    <Text className="text-white text-sm text-center">
+                      {t('auth.verifyOtp.resendIn')} ({countdown}s)
                     </Text>
-                  </Pressable>
+                  ) : (
+                    <View>
+                      <Text className="text-white text-sm text-center mb-2">
+                        {t('auth.verifyOtp.didntReceive')}
+                      </Text>
+                      <Pressable onPress={handleResendOTP}>
+                        <Text className="text-fadedOrange font-semibold text-sm text-center">
+                          {t('auth.verifyOtp.resend')}
+                        </Text>
+                      </Pressable>
+                    </View>
+                  )}
                 </View>
 
                 {/* Verify Button */}
                 <Button
-                  title="Verify OTP"
+                  title={t('auth.verifyOtp.verify')}
                   onPress={handleVerifyOTP}
                   variant="primary"
                   size="lg"
                   rounded="3xl"
                   fullWidth
                   loading={isLoading}
-                  disabled={otp.length < 5}
                 />
 
                 <Spacer size={6} />
               </View>
           </Container>
-        </KeyboardAwareScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     </View>
   );

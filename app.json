@@ -14,7 +14,18 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ExpoLocalization_supportsRTL": true,
+        "ExpoLocalization_forcesRTL": false,
+        "CFBundleAllowMixedLocalizations": true,
+        "CFBundleLocalizations": [
+          "en",
+          "ar"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.kareem.deek.RepsUp"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,13 +33,33 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.kareem.deek.RepsUp",
+      "supportsRTL": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "extra": {
+      "supportsRTL": true,
+      "forcesRTL": false,
+      "eas": {
+        "projectId": "dc3b19b6-05cd-45fa-8538-008aacf4b403"
+      }
+    },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-localization",
+        {
+          "supportsRTL": true,
+          "forcesRTL": false,
+          "supportedLocales": [
+            "en",
+            "ar"
+          ]
+        }
+      ]
     ]
   }
 }

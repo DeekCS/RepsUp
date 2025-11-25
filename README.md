@@ -47,6 +47,7 @@ RepsUp/
 - **Expo Router** - File-based routing
 - **NativeWind** - Tailwind CSS for React Native
 - **TypeScript** - Type safety
+- **i18next** - Internationalization (English & Arabic support)
 
 ## Getting Started
 
@@ -71,6 +72,7 @@ npx expo start --android
 - 👤 User profiles
 - 🔄 State management ready
 - 🎯 TypeScript for type safety
+- 🌍 Multi-language support (English/Arabic)
 
 ## Development
 
@@ -78,6 +80,31 @@ The app uses path aliases for cleaner imports:
 ```typescript
 import { Button } from '@/src/components/ui';
 import { Workout } from '@/src/types';
+```
+
+### Internationalization (i18n)
+
+The app supports English and Arabic. To use translations:
+
+```typescript
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t } = useTranslation();
+  return <Text>{t('welcome')}</Text>;
+}
+```
+
+**i18n Documentation:**
+- 📚 [Quick Reference](./I18N_QUICK_REFERENCE.md) - Copy-paste snippets
+- 📖 [Full Guide](./I18N_GUIDE.md) - Detailed best practices
+- 🏗️ [Architecture](./I18N_ARCHITECTURE.md) - System overview
+- ✅ [Implementation](./I18N_IMPLEMENTATION_COMPLETE.md) - What's included
+
+**Change Language:**
+```typescript
+import { changeLanguage } from '@/src/utils/language';
+await changeLanguage('ar'); // Switch to Arabic
 ```
 
 ## License
