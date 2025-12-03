@@ -16,6 +16,12 @@
     "success": "Success"
   },
   "auth": {
+    "welcome": "Welcome",
+    "fitnessJourney": "Your fitness journey starts here",
+    "enterPhone": "Enter phone number",
+    "continue": "Continue",
+    "or": "Or",
+    "terms": "By continuing, you agree to our Terms of Service and Privacy Policy",
     "login": {
       "title": "Welcome Back",
       "subtitle": "Login to continue your fitness journey",

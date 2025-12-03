@@ -5,15 +5,22 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Pressable,
+  StyleSheet,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Container, Spacer, Button, SocialButton, PhoneInput } from '../../src/components/ui';
+import { useLocalization } from '../../src/lib/LocalizationProvider';
+import { getLanguageToggleText } from '../../src/lib/i18n';
 
 export default function LoginScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const router = useRouter();
+  const { t } = useTranslation();
+  const { toggleLanguage } = useLocalization();
 
   const handleSendOTP = () => {
     // Simple static login - navigate to verify OTP
@@ -59,24 +66,34 @@ export default function LoginScreen() {
             >
               <Container className="flex-1 justify-between pt-20 pb-10">
                 {/* Header */}
-                <View>
+                <View style={styles.header}>
                   <Text className="text-white text-2xl">
-                    Welcome
+                    {t('auth.welcome', { defaultValue: 'Welcome' })}
                   </Text>
+                  
+                  {/* Language Toggle Button */}
+                  <Pressable 
+                    onPress={toggleLanguage}
+                    style={styles.languageButton}
+                  >
+                    <Text style={styles.languageButtonText}>
+                      {getLanguageToggleText()}
+                    </Text>
+                  </Pressable>
                 </View>
 
                 {/* Bottom Section */}
                 <View>
                   {/* Motivational Text */}
                   <Text className="text-white text-2xl font-bold text-center mb-8 leading-tight">
-                    Your fitness journey starts here
+                    {t('auth.fitnessJourney', { defaultValue: 'Your fitness journey starts here' })}
                   </Text>
 
                   {/* Phone Input */}
                   <PhoneInput
                     value={phoneNumber}
                     onChangeText={setPhoneNumber}
-                    placeholder="Enter phone number"
+                    placeholder={t('auth.enterPhone', { defaultValue: 'Enter phone number' })}
                     countryFlag="🇯🇴"
                     countryCode="+962"
                   />
@@ -85,7 +102,7 @@ export default function LoginScreen() {
 
                   {/* Send OTP Button */}
                   <Button
-                    title="Continue"
+                    title={t('auth.continue', { defaultValue: 'Continue' })}
                     onPress={handleSendOTP}
                     variant="primary"
                     size="lg"
@@ -99,7 +116,7 @@ export default function LoginScreen() {
                   <View className="flex-row items-center">
                     <View className="flex-1 h-[1px] bg-white/30" />
                     <Text className="text-white mx-4 text-base">
-                      Or
+                      {t('auth.or', { defaultValue: 'Or' })}
                     </Text>
                     <View className="flex-1 h-[1px] bg-white/30" />
                   </View>
@@ -122,7 +139,7 @@ export default function LoginScreen() {
 
                   {/* Terms and Privacy */}
                   <Text className="text-white text-center text-sm">
-                    By continuing, you agree to our Terms of Service and Privacy Policy
+                    {t('auth.terms', { defaultValue: 'By continuing, you agree to our Terms of Service and Privacy Policy' })}
                   </Text>
                 </View>
               </Container>
@@ -132,3 +149,22 @@ export default function LoginScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  languageButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  languageButtonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+});

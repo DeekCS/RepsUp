@@ -1,5 +1,22 @@
 import { View, ViewProps } from 'react-native';
-import { useTheme } from '../../contexts/ThemeContext';
+
+// Theme constants
+const theme = {
+  grid: {
+    margin: 16,
+    gutter: 20,
+  },
+  spacing: {
+    0: 0,
+    1: 4,
+    2: 8,
+    3: 12,
+    4: 16,
+    5: 20,
+    6: 24,
+    8: 32,
+  },
+};
 
 interface ContainerProps extends ViewProps {
   children: React.ReactNode;
@@ -10,8 +27,6 @@ interface ContainerProps extends ViewProps {
  * Container component with grid margins (16px)
  */
 export const Container: React.FC<ContainerProps> = ({ children, className = '', style, ...props }) => {
-  const theme = useTheme();
-  
   return (
     <View 
       className={`px-grid-margin ${className}`}
@@ -33,8 +48,6 @@ interface RowProps extends ViewProps {
  * Row component with gutters (20px)
  */
 export const Row: React.FC<RowProps> = ({ children, className = '', gap = true, style, ...props }) => {
-  const theme = useTheme();
-  
   return (
     <View 
       className={`flex-row ${className}`}
@@ -60,8 +73,6 @@ interface ColProps extends ViewProps {
  * Column component that spans 1-4 columns
  */
 export const Col: React.FC<ColProps> = ({ children, span = 1, className = '', gap = true, style, ...props }) => {
-  const theme = useTheme();
-  
   const flexValue = span;
   
   return (
@@ -88,7 +99,6 @@ interface SpacerProps {
  * Spacer component for consistent spacing
  */
 export const Spacer: React.FC<SpacerProps> = ({ size = 4, horizontal = false }) => {
-  const theme = useTheme();
   const spacing = theme.spacing[size as keyof typeof theme.spacing] || theme.spacing[4];
   
   return (

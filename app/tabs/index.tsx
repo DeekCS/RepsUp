@@ -2,6 +2,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { Button, Card } from '@/src/components/ui';
+import { LanguageSwitcher } from '@/src/components/features/LanguageSwitcher';
 
 export default function WorkoutsScreen() {
   return (
@@ -11,6 +12,7 @@ export default function WorkoutsScreen() {
       {/* Content */}
       <ScrollView className="flex-1 px-4 pt-16 pb-28">
         <Card className="mb-6">
+          <LanguageSwitcher />
           <Text className="text-2xl text-gray-900 mb-2">
             Start Your First Workout
           </Text>
