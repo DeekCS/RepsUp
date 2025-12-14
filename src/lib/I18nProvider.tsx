@@ -65,8 +65,8 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
   const [isReady, setIsReady] = useState(false);
   const [language, setLanguageState] = useState<SupportedLanguage>('en');
 
-  // RTL state comes from I18nManager - the source of truth after restart
-  const isRTL = I18nManager.isRTL ?? false;
+  // RTL state: on web use language, on native use I18nManager
+  const isRTL = Platform.OS === 'web' ? isRTLLanguage(language) : (I18nManager.isRTL ?? false);
 
   // ============================================================================
   // INITIALIZATION
@@ -85,6 +85,12 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
         const currentRTL = I18nManager.isRTL ?? false;
 
         console.log(`[I18n] Init: lang=${lang}, shouldBeRTL=${shouldBeRTL}, currentRTL=${currentRTL}`);
+
+        // Set HTML dir attribute for web
+        if (Platform.OS === 'web' && typeof document !== 'undefined') {
+          document.documentElement.dir = shouldBeRTL ? 'rtl' : 'ltr';
+          document.documentElement.lang = lang;
+        }
 
         // Check for RTL mismatch on native platforms
         if (Platform.OS !== 'web' && shouldBeRTL !== currentRTL) {
@@ -149,7 +155,11 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
       console.log(`[I18n] Direction change: ${currentRTL ? 'RTL→LTR' : 'LTR→RTL'}`);
 
       if (Platform.OS === 'web') {
-        // Web: simple reload
+        // Web: set dir attribute and reload
+        if (typeof document !== 'undefined') {
+          document.documentElement.dir = shouldBeRTL ? 'rtl' : 'ltr';
+          document.documentElement.lang = newLang;
+        }
         window.location.reload();
         return;
       }
