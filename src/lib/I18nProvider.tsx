@@ -145,8 +145,8 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
     if (newLang === language) return;
 
     const shouldBeRTL = isRTLLanguage(newLang);
-    const currentRTL = I18nManager.isRTL ?? false;
-    const needsReload = shouldBeRTL !== currentRTL;
+    const currentLangIsRTL = isRTLLanguage(language);
+    const needsReload = shouldBeRTL !== currentLangIsRTL;
 
     // Save preference first
     await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, newLang);
