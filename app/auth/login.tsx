@@ -13,14 +13,14 @@ import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Container, Spacer, Button, SocialButton, PhoneInput } from '../../src/components/ui';
-import { useLocalization } from '../../src/lib/LocalizationProvider';
-import { getLanguageToggleText } from '../../src/lib/i18n';
+import { Row } from '../../src/components/layout';
+import { useI18n } from '../../src/lib/I18nProvider';
 
 export default function LoginScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const router = useRouter();
   const { t } = useTranslation();
-  const { toggleLanguage } = useLocalization();
+  const { toggleLanguage, getToggleLabel } = useI18n();
 
   const handleSendOTP = () => {
     // Simple static login - navigate to verify OTP
@@ -65,8 +65,8 @@ export default function LoginScreen() {
               keyboardShouldPersistTaps="handled"
             >
               <Container className="flex-1 justify-between pt-20 pb-10">
-                {/* Header */}
-                <View style={styles.header}>
+                {/* Header - RTL-aware Row */}
+                <Row justify="between" align="center">
                   <Text className="text-white text-2xl">
                     {t('auth.welcome', { defaultValue: 'Welcome' })}
                   </Text>
@@ -77,10 +77,10 @@ export default function LoginScreen() {
                     style={styles.languageButton}
                   >
                     <Text style={styles.languageButtonText}>
-                      {getLanguageToggleText()}
+                      {getToggleLabel()}
                     </Text>
                   </Pressable>
-                </View>
+                </Row>
 
                 {/* Bottom Section */}
                 <View>
@@ -151,11 +151,6 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   languageButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     paddingHorizontal: 16,

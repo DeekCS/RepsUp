@@ -6,8 +6,7 @@ import { View, ActivityIndicator, StyleSheet} from 'react-native';
 import { useFonts, DMSans_400Regular, DMSans_500Medium, DMSans_700Bold } from '@expo-google-fonts/dm-sans';
 import { ThemeProvider, DefaultTheme } from '@react-navigation/native';
 import '../global.css';
-// Import localization provider - handles RTL initialization
-import { LocalizationProvider, useLocalization } from '../src/lib/LocalizationProvider';
+import { I18nProvider, useI18n } from '../src/lib/I18nProvider';
 
 
 // Prevent splash from auto-hiding
@@ -93,15 +92,14 @@ function NavigationLayout() {
 // ============================================================================
 
 function AppContent() {
-  const { isReady: isLocalizationReady } = useLocalization();
+  const { isReady: isI18nReady } = useI18n();
   const [fontsLoaded] = useFonts({
     'DMSans-Regular': DMSans_400Regular,
     'DMSans-Medium': DMSans_500Medium,
     'DMSans-Bold': DMSans_700Bold,
   });
 
-  // Track if app is fully ready
-  const isAppReady = fontsLoaded && isLocalizationReady;
+  const isAppReady = fontsLoaded && isI18nReady;
 
   // Hide splash screen when everything is ready
   const onLayoutRootView = useCallback(async () => {
@@ -132,9 +130,9 @@ function AppContent() {
 
 export default function RootLayout() {
   return (
-    <LocalizationProvider loadingComponent={<LoadingScreen />}>
+    <I18nProvider fallback={<LoadingScreen />}>
       <AppContent />
-    </LocalizationProvider>
+    </I18nProvider>
   );
 }
 
