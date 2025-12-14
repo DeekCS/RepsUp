@@ -43,12 +43,16 @@ interface I18nContextValue {
   language: SupportedLanguage;
   /** Whether layout is RTL (from I18nManager) */
   isRTL: boolean;
+  /** Whether there's an RTL mismatch that needs app restart */
+  hasRTLMismatch: boolean;
   /** Change language - will reload app if direction changes */
   setLanguage: (lang: SupportedLanguage) => Promise<void>;
   /** Toggle between English and Arabic */
   toggleLanguage: () => Promise<void>;
   /** Get the opposite language label for toggle button */
   getToggleLabel: () => string;
+  /** Reset to English and clear all RTL state */
+  resetToEnglish: () => Promise<void>;
 }
 
 const I18nContext = createContext<I18nContextValue | null>(null);
@@ -65,6 +69,7 @@ interface I18nProviderProps {
 export function I18nProvider({ children, fallback }: I18nProviderProps) {
   const [isReady, setIsReady] = useState(false);
   const [language, setLanguageState] = useState<SupportedLanguage>('en');
+  const [hasRTLMismatch, setHasRTLMismatch] = useState(false);
 
   // RTL state: on web use language, on native use I18nManager
   const isRTL = Platform.OS === 'web' ? isRTLLanguage(language) : (I18nManager.isRTL ?? false);
@@ -110,6 +115,7 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
             // If we've tried to restart in the last 10 seconds, skip restart but continue
             if (now - guardTimestamp < 10000) {
               console.log('[I18n] Restart guard active. Please fully close and reopen the app for RTL to take effect.');
+              if (mounted) setHasRTLMismatch(true);
               // Continue initialization instead of returning
             } else {
               console.log('[I18n] Attempting app restart for RTL change...');
@@ -225,6 +231,32 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
     return language === 'ar' ? 'English' : 'العربية';
   }, [language]);
 
+  const resetToEnglish = useCallback(async () => {
+    console.log('[I18n] Resetting to English and clearing RTL state...');
+    
+    // Clear all i18n-related storage
+    await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, 'en');
+    await AsyncStorage.removeItem(RTL_RESTART_GUARD_KEY);
+    
+    // Set RTL to false
+    if (Platform.OS !== 'web') {
+      I18nManager.allowRTL(false);
+      I18nManager.forceRTL(false);
+    }
+    
+    // Update state
+    await i18n.changeLanguage('en');
+    setLanguageState('en');
+    setHasRTLMismatch(false);
+    
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      document.documentElement.dir = 'ltr';
+      document.documentElement.lang = 'en';
+    }
+    
+    console.log('[I18n] Reset complete. On mobile, please close and reopen the app.');
+  }, []);
+
   // ============================================================================
   // CONTEXT VALUE
   // ============================================================================
@@ -233,10 +265,12 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
     isReady,
     language,
     isRTL,
+    hasRTLMismatch,
     setLanguage,
     toggleLanguage,
     getToggleLabel,
-  }), [isReady, language, isRTL, setLanguage, toggleLanguage, getToggleLabel]);
+    resetToEnglish,
+  }), [isReady, language, isRTL, hasRTLMismatch, setLanguage, toggleLanguage, getToggleLabel, resetToEnglish]);
 
   // ============================================================================
   // RENDER
