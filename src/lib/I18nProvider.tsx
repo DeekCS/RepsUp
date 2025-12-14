@@ -95,18 +95,22 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
 
         // Check for RTL mismatch on native platforms
         if (Platform.OS !== 'web' && shouldBeRTL !== currentRTL) {
+          console.log('[I18n] RTL mismatch detected, setting RTL preference...');
+          
+          // Always set the RTL preference (will apply on next cold start)
+          I18nManager.allowRTL(shouldBeRTL);
+          I18nManager.forceRTL(shouldBeRTL);
+          
           // Prevent infinite restart loop with a guard
           const restartGuard = await AsyncStorage.getItem(RTL_RESTART_GUARD_KEY);
           const guardTimestamp = restartGuard ? parseInt(restartGuard, 10) : 0;
           const now = Date.now();
           
-          // If we've tried to restart in the last 5 seconds, skip to prevent loop
-          if (now - guardTimestamp < 5000) {
-            console.log('[I18n] Skipping RTL restart (guard active), continuing with mismatch');
+          // If we've tried to restart in the last 10 seconds, skip restart but continue
+          if (now - guardTimestamp < 10000) {
+            console.log('[I18n] Restart guard active, skipping restart. RTL will apply on next cold start.');
           } else {
-            console.log('[I18n] RTL mismatch detected, fixing...');
-            I18nManager.allowRTL(shouldBeRTL);
-            I18nManager.forceRTL(shouldBeRTL);
+            console.log('[I18n] Attempting app restart for RTL change...');
             
             // Set restart guard
             await AsyncStorage.setItem(RTL_RESTART_GUARD_KEY, now.toString());
@@ -121,7 +125,7 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
                   const RNRestart = require('react-native-restart').default;
                   RNRestart.restart();
                 } catch (e) {
-                  console.error('[I18n] Could not restart:', e);
+                  console.warn('[I18n] Could not restart app. Please close and reopen the app for RTL to take effect.');
                 }
               }
             }, 100);
