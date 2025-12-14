@@ -1,0 +1,80 @@
+You are a senior React Native + Expo engineer.
+Your task is to review and refactor my app so that:
+
+RTL/LTR is fully dynamic at the app level
+
+Use I18nManager.allowRTL and I18nManager.forceRTL correctly with a clean, centralized direction controller (no per-component isRTL ? styleA : styleB).​
+
+The layout should flip globally when language direction changes, similar to direction: rtl|ltr on the web. ​
+
+Use logical styles (flexDirection: 'row' | 'row-reverse', alignItems, justifyContent, etc.) and start/end instead of left/right wherever possible so components automatically adapt to direction. ​
+
+i18n is production-grade
+
+Use a consistent i18n framework (prefer i18next + react-i18next or i18n-js) wired with expo-localization for detection and AsyncStorage (or SecureStore) for persisting the selected language.​
+
+Support nested keys, interpolation, plurals, and fallbacks for missing translations.​
+
+All user-facing strings must be moved out of components into translation files (en.json, ar.json, etc.), with no hardcoded UI text.​
+
+Language switcher + direction handling
+
+Implement a single global language/direction provider (e.g., I18nProvider) that exposes:
+
+currentLanguage
+
+isRTL
+
+setLanguage(langCode)
+
+When setLanguage is called:
+
+Update i18n language.
+
+Compute shouldBeRTL based on language (e.g., Arabic → true, English → false).​
+
+Call I18nManager.allowRTL(shouldBeRTL) and I18nManager.forceRTL(shouldBeRTL) as needed.
+
+Trigger a safe app reload or root remount (using expo-dev-client, expo-updates reloadAsync, or a key on the root component) so the new direction is applied without adding conditional styles everywhere.​
+
+NativeWind / Tailwind integration
+
+Ensure NativeWind is configured so components respect the native direction, without relying on broken rtl: / ltr: modifiers where they are not supported.​
+
+Prefer using neutral utility classes and relying on React Native’s direction handling, only falling back to explicit direction-specific classes when absolutely necessary.​
+
+No scattered styling conditions
+
+Remove repeated isRTL ? ... : ... conditions from individual screens and components as much as possible.​
+
+Any remaining direction-specific behavior should be encapsulated in:
+
+Reusable hooks (e.g., useDirection())
+
+Shared layout components (e.g., Row, Stack, ScreenContainer) that internally respect isRTL.​
+
+Testing & edge cases
+
+Make sure the app behaves correctly when:
+
+Device language is RTL but user selects LTR inside the app, and vice versa.​
+
+Switching languages multiple times in one session.
+
+Running in development builds and in production builds (not only in Expo Go).​
+
+Document any platform limitations (iOS/Android) where a full restart is unavoidable and implement the cleanest UX for that (e.g., a brief “restarting to apply language” screen).​
+
+Deliverables
+
+Refactored example code for:
+
+The i18n setup file.
+
+The I18nProvider / context.
+
+A sample screen showing text, icons, and horizontal layouts that correctly flip without local conditions.
+
+A short checklist for future components: what to avoid (left/right, inline isRTL checks) and what to use instead (start/end, shared layout primitives, hooks).​
+
+Use TypeScript everywhere, ensure types are strict, and keep the architecture clean and scalable for a real production app
