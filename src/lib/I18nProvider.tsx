@@ -20,6 +20,7 @@ import i18n from './i18n';
 // ============================================================================
 
 export const LANGUAGE_STORAGE_KEY = 'app_language';
+const RTL_RESTART_GUARD_KEY = 'rtl_restart_guard';
 export const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur'] as const;
 export type SupportedLanguage = 'en' | 'ar';
 
@@ -94,25 +95,38 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
 
         // Check for RTL mismatch on native platforms
         if (Platform.OS !== 'web' && shouldBeRTL !== currentRTL) {
-          console.log('[I18n] RTL mismatch detected, fixing...');
-          I18nManager.allowRTL(shouldBeRTL);
-          I18nManager.forceRTL(shouldBeRTL);
+          // Prevent infinite restart loop with a guard
+          const restartGuard = await AsyncStorage.getItem(RTL_RESTART_GUARD_KEY);
+          const guardTimestamp = restartGuard ? parseInt(restartGuard, 10) : 0;
+          const now = Date.now();
           
-          // Trigger app reload
-          setTimeout(async () => {
-            try {
-              const Updates = require('expo-updates');
-              await Updates.reloadAsync();
-            } catch {
+          // If we've tried to restart in the last 5 seconds, skip to prevent loop
+          if (now - guardTimestamp < 5000) {
+            console.log('[I18n] Skipping RTL restart (guard active), continuing with mismatch');
+          } else {
+            console.log('[I18n] RTL mismatch detected, fixing...');
+            I18nManager.allowRTL(shouldBeRTL);
+            I18nManager.forceRTL(shouldBeRTL);
+            
+            // Set restart guard
+            await AsyncStorage.setItem(RTL_RESTART_GUARD_KEY, now.toString());
+            
+            // Trigger app reload
+            setTimeout(async () => {
               try {
-                const RNRestart = require('react-native-restart').default;
-                RNRestart.restart();
-              } catch (e) {
-                console.error('[I18n] Could not restart:', e);
+                const Updates = require('expo-updates');
+                await Updates.reloadAsync();
+              } catch {
+                try {
+                  const RNRestart = require('react-native-restart').default;
+                  RNRestart.restart();
+                } catch (e) {
+                  console.error('[I18n] Could not restart:', e);
+                }
               }
-            }
-          }, 100);
-          return;
+            }, 100);
+            return;
+          }
         }
 
         // Initialize i18next with saved language
