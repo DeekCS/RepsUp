@@ -7,5 +7,5 @@ export {
   type UseRTLReturn 
 } from './useRTL';
 
-// Re-export localization hook
-export { useLocalization } from '../lib/LocalizationProvider';
+// Re-export i18n hook
+export { useI18n } from '../lib/I18nProvider';

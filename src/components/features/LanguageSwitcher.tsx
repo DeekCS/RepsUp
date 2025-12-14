@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useLocalization } from '../../lib/LocalizationProvider';
+import { useI18n, SupportedLanguage } from '../../lib/I18nProvider';
 
 interface LanguageSwitcherProps {
   variant?: 'inline' | 'dropdown';
@@ -11,18 +11,18 @@ interface LanguageSwitcherProps {
 /**
  * Language Switcher Component
  * Allows users to switch between English and Arabic
- * Uses LocalizationProvider which handles RTL restart properly
+ * Uses I18nProvider which handles RTL restart properly
  */
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ 
   variant = 'inline',
   className = '' 
 }) => {
   const { t } = useTranslation();
-  const { language: currentLang, changeLanguage } = useLocalization();
+  const { language: currentLang, setLanguage } = useI18n();
 
-  const handleLanguageChange = async (lang: 'en' | 'ar') => {
+  const handleLanguageChange = async (lang: SupportedLanguage) => {
     if (lang !== currentLang) {
-      await changeLanguage(lang);
+      await setLanguage(lang);
     }
   };
 

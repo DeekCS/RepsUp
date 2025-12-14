@@ -8,7 +8,7 @@
 import { useMemo } from 'react';
 import { I18nManager, ViewStyle } from 'react-native';
 
-import { useLocalization } from '../lib/LocalizationProvider';
+import { useI18n } from '../lib/I18nProvider';
 
 // ============================================================================
 // TYPES
@@ -32,7 +32,7 @@ export interface UseRTLReturn {
 // ============================================================================
 
 export const useRTL = (): UseRTLReturn => {
-  const { language, isRTL } = useLocalization();
+  const { language, isRTL } = useI18n();
 
   return useMemo(() => ({
     isRTL,

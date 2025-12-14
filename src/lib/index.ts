@@ -26,12 +26,12 @@ export {
   initializeRTL,
   isRTLInitialized,
   changeLanguageWithRTL,
-  type SupportedLanguage,
   type RTLLanguage,
 } from './rtl';
 
-// Localization Provider
+// I18n Provider
 export {
-  LocalizationProvider,
-  useLocalization,
-} from './LocalizationProvider';
+  I18nProvider,
+  useI18n,
+  type SupportedLanguage,
+} from './I18nProvider';
