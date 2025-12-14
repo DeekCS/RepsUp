@@ -152,7 +152,7 @@ export function I18nProvider({ children, fallback }: I18nProviderProps) {
     await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, newLang);
 
     if (needsReload) {
-      console.log(`[I18n] Direction change: ${currentRTL ? 'RTL→LTR' : 'LTR→RTL'}`);
+      console.log(`[I18n] Direction change: ${currentLangIsRTL ? 'RTL→LTR' : 'LTR→RTL'}`);
 
       if (Platform.OS === 'web') {
         // Web: set dir attribute and reload
