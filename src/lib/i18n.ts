@@ -10,8 +10,8 @@ import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { I18nManager, Platform, NativeModules } from 'react-native';
 
-import translationAr from '../locales/ar/translation.json';
-import translationEn from '../locales/en/translation.json';
+import translationAr from '../locales/ar';
+import translationEn from '../locales/en';
 
 import {
   LANGUAGE_STORAGE_KEY,
@@ -22,10 +22,10 @@ import {
 // CONSTANTS & RESOURCES
 // ============================================================================
 
-const resources: Record<SupportedLanguage, { translation: typeof translationEn }> = {
+const resources = {
   ar: { translation: translationAr },
   en: { translation: translationEn },
-};
+} as const;
 
 const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'ar'];
 
