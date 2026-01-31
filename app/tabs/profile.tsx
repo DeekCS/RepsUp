@@ -1,13 +1,14 @@
 import { View, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Card } from '@/src/components/ui';
+import { ScreenContainer } from '@/src/components/layout';
 
 export default function ProfileScreen() {
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="dark" />
       
-      <View className="flex-1 px-4 pt-16 pb-28">
+      <ScreenContainer safeTop safeBottom>
         <Card className="mb-4">
           <Text className="text-xl font-bold text-gray-900 mb-4">
             Settings
@@ -23,7 +24,7 @@ export default function ProfileScreen() {
             </View>
           </View>
         </Card>
-      </View>
+      </ScreenContainer>
     </View>
   );
 }

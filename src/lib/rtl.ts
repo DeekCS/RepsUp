@@ -49,6 +49,115 @@ export const getLayoutDirection = (): 'rtl' | 'ltr' => {
 };
 
 // ============================================================================
+// RTL-AWARE STYLING UTILITIES
+// ============================================================================
+
+type FlexAlignment = 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+type FlexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse';
+type TextAlign = 'left' | 'right' | 'center' | 'justify' | 'auto';
+
+/**
+ * Get RTL-aware text alignment
+ * @param align - 'left' or 'right' (will flip in RTL), or 'center'/'justify' (stays same)
+ */
+export const textAlign = (align: 'left' | 'right' | 'center' | 'justify'): TextAlign => {
+  if (align === 'center' || align === 'justify') return align;
+  if (!I18nManager.isRTL) return align;
+  return align === 'left' ? 'right' : 'left';
+};
+
+/**
+ * Get RTL-aware flex direction
+ * Automatically flips 'row' to 'row-reverse' in RTL
+ */
+export const flexDirection = (direction: 'row' | 'column' = 'row'): FlexDirection => {
+  if (direction === 'column') return 'column';
+  return I18nManager.isRTL ? 'row-reverse' : 'row';
+};
+
+/**
+ * Get RTL-aware alignment
+ * Flips flex-start/flex-end in RTL
+ */
+export const alignItems = (alignment: FlexAlignment): FlexAlignment => {
+  if (!I18nManager.isRTL || alignment === 'center' || alignment === 'stretch' || alignment === 'baseline') {
+    return alignment;
+  }
+  return alignment === 'flex-start' ? 'flex-end' : 'flex-start';
+};
+
+/**
+ * Get RTL-aware justify content
+ * Flips flex-start/flex-end in RTL
+ */
+export const justifyContent = (alignment: FlexAlignment | 'space-between' | 'space-around' | 'space-evenly'): string => {
+  if (!I18nManager.isRTL || 
+      alignment === 'center' || 
+      alignment === 'stretch' || 
+      alignment === 'baseline' ||
+      alignment === 'space-between' ||
+      alignment === 'space-around' ||
+      alignment === 'space-evenly') {
+    return alignment;
+  }
+  return alignment === 'flex-start' ? 'flex-end' : 'flex-start';
+};
+
+/**
+ * RTL-aware padding (left/right)
+ * Use paddingStart/paddingEnd instead of paddingLeft/paddingRight
+ */
+export const padding = {
+  start: (value: number) => (I18nManager.isRTL ? { paddingRight: value } : { paddingLeft: value }),
+  end: (value: number) => (I18nManager.isRTL ? { paddingLeft: value } : { paddingRight: value }),
+};
+
+/**
+ * RTL-aware margin (left/right)
+ * Use marginStart/marginEnd instead of marginLeft/marginRight
+ */
+export const margin = {
+  start: (value: number) => (I18nManager.isRTL ? { marginRight: value } : { marginLeft: value }),
+  end: (value: number) => (I18nManager.isRTL ? { marginLeft: value } : { marginRight: value }),
+};
+
+/**
+ * RTL-aware positioning (left/right)
+ */
+export const position = {
+  start: (value: number) => (I18nManager.isRTL ? { right: value } : { left: value }),
+  end: (value: number) => (I18nManager.isRTL ? { left: value } : { right: value }),
+};
+
+/**
+ * RTL-aware border radius
+ * Flips corner positions for RTL
+ */
+export const borderRadius = {
+  topStart: (value: number) => (I18nManager.isRTL ? { borderTopRightRadius: value } : { borderTopLeftRadius: value }),
+  topEnd: (value: number) => (I18nManager.isRTL ? { borderTopLeftRadius: value } : { borderTopRightRadius: value }),
+  bottomStart: (value: number) => (I18nManager.isRTL ? { borderBottomRightRadius: value } : { borderBottomLeftRadius: value }),
+  bottomEnd: (value: number) => (I18nManager.isRTL ? { borderBottomLeftRadius: value } : { borderBottomRightRadius: value }),
+};
+
+/**
+ * Transform value for RTL (flips horizontal transforms)
+ */
+export const transform = {
+  scaleX: (value: number) => (I18nManager.isRTL ? -value : value),
+  translateX: (value: number) => (I18nManager.isRTL ? -value : value),
+  rotate: (degrees: string) => {
+    if (!I18nManager.isRTL) return degrees;
+    const match = degrees.match(/(-?\d+(?:\.\d+)?)deg/);
+    if (match) {
+      const angle = parseFloat(match[1]);
+      return `${-angle}deg`;
+    }
+    return degrees;
+  },
+};
+
+// ============================================================================
 // RESTART FUNCTION
 // ============================================================================
 
@@ -95,6 +204,16 @@ export const changeLanguageWithRTL = async (newLanguage: SupportedLanguage): Pro
 
   if (needsRestart && Platform.OS !== 'web') {
     console.log(`[RTL] Direction change: ${currentRTL ? 'RTL→LTR' : 'LTR→RTL'}, restarting...`);
+    
+    if (Platform.OS === 'ios') {
+      console.warn(
+        '[RTL] iOS requires app rebuild for RTL changes.\n' +
+        'Please:\n' +
+        '1. Close this app completely\n' +
+        '2. Run: npx expo run:ios\n' +
+        'Or for testing only, the app will attempt restart but may need manual rebuild.'
+      );
+    }
     
     // Mark that we're about to fix RTL (prevents loop on next startup)
     await AsyncStorage.setItem(RTL_FIX_ATTEMPTED_KEY, 'true');
@@ -144,28 +263,49 @@ export const initializeRTL = async (): Promise<SupportedLanguage> => {
     
     console.log(`[RTL] Init - Language: ${language}, shouldBeRTL: ${shouldBeRTL}, I18nManager.isRTL: ${currentRTL}, fixAttempted: ${fixAttempted}`);
     
-    // If RTL matches or we already tried to fix it, just continue
-    if (shouldBeRTL === currentRTL || fixAttempted === 'true') {
-      // Clear the fix attempted flag now that we're running normally
+    // If RTL matches, we're good
+    if (shouldBeRTL === currentRTL) {
+      // Clear any fix attempted flag
       if (fixAttempted === 'true') {
         await AsyncStorage.removeItem(RTL_FIX_ATTEMPTED_KEY);
-        console.log(`[RTL] Cleared fix attempted flag`);
       }
       _initialized = true;
       return language;
     }
     
-    // Mismatch detected and we haven't tried to fix it yet - fix and restart
+    // RTL mismatch detected
     if (Platform.OS !== 'web') {
-      console.log(`[RTL] Mismatch detected! Fixing RTL state and restarting...`);
+      // On iOS, RTL requires a native rebuild - don't attempt restarts
+      if (Platform.OS === 'ios') {
+        console.warn(
+          `[RTL] RTL mismatch on iOS detected.\n` +
+          `Expected RTL: ${shouldBeRTL}, Actual: ${currentRTL}\n` +
+          `iOS requires native rebuild. Close the app and run: npx expo run:ios`
+        );
+        _initialized = true;
+        return language;
+      }
       
-      // Mark that we're attempting a fix (prevents loop)
+      // Android: If we already tried to fix it once, don't restart again
+      if (fixAttempted === 'true') {
+        console.warn(
+          `[RTL] RTL mismatch persists after restart attempt.\n` +
+          `Expected RTL: ${shouldBeRTL}, Actual: ${currentRTL}\n` +
+          `Close app completely and rebuild with: npx expo run:android`
+        );
+        await AsyncStorage.removeItem(RTL_FIX_ATTEMPTED_KEY);
+        _initialized = true;
+        return language;
+      }
+      
+      // Android: First mismatch - try to fix it
+      console.log(`[RTL] Mismatch detected! Setting RTL and restarting...`);
+      
       await AsyncStorage.setItem(RTL_FIX_ATTEMPTED_KEY, 'true');
       
       I18nManager.allowRTL(shouldBeRTL);
       I18nManager.forceRTL(shouldBeRTL);
       
-      // Restart to apply RTL changes
       setTimeout(() => {
         try {
           const Updates = require('expo-updates');

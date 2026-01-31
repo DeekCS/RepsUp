@@ -82,29 +82,45 @@ import { Button } from '@/src/components/ui';
 import { Workout } from '@/src/types';
 ```
 
-### Internationalization (i18n)
+### Internationalization & RTL Support
 
-The app supports English and Arabic. To use translations:
+The app supports English and Arabic with full RTL (Right-to-Left) layout support. To use translations:
 
 ```typescript
 import { useTranslation } from 'react-i18next';
+import { useRTL } from '@/src/hooks/useRTL';
 
 function MyComponent() {
   const { t } = useTranslation();
-  return <Text>{t('welcome')}</Text>;
+  const { isRTL, flexDirection, textAlign } = useRTL();
+  
+  return (
+    <View style={{ flexDirection: flexDirection() }}>
+      <Text style={{ textAlign: textAlign() }}>
+        {t('welcome')}
+      </Text>
+    </View>
+  );
 }
 ```
 
-**i18n Documentation:**
-- 📚 [Quick Reference](./I18N_QUICK_REFERENCE.md) - Copy-paste snippets
-- 📖 [Full Guide](./I18N_GUIDE.md) - Detailed best practices
-- 🏗️ [Architecture](./I18N_ARCHITECTURE.md) - System overview
-- ✅ [Implementation](./I18N_IMPLEMENTATION_COMPLETE.md) - What's included
+**RTL/i18n Documentation:**
+- 📚 [Quick Reference](./RTL_QUICK_REFERENCE.md) - Copy-paste snippets for RTL-aware components
+- 📖 [Complete RTL Guide](./RTL_EXPO_IMPLEMENTATION.md) - Full implementation guide with examples
 
 **Change Language:**
 ```typescript
-import { changeLanguage } from '@/src/utils/language';
-await changeLanguage('ar'); // Switch to Arabic
+import { useI18n } from '@/src/lib/I18nProvider';
+
+function LanguageSwitcher() {
+  const { setLanguage, toggleLanguage } = useI18n();
+  
+  // Switch to specific language
+  await setLanguage('ar'); // Switch to Arabic
+  
+  // Or toggle between English and Arabic
+  await toggleLanguage();
+}
 ```
 
 ## License

@@ -7,9 +7,8 @@
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { I18nManager } from 'react-native';
+import { I18nManager, Platform, NativeModules } from 'react-native';
 
 import translationAr from '../locales/ar/translation.json';
 import translationEn from '../locales/en/translation.json';
@@ -33,6 +32,21 @@ const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'ar'];
 // ============================================================================
 // HELPER FUNCTIONS
 // ============================================================================
+
+/**
+ * Get device locale using React Native's NativeModules
+ */
+const getDeviceLocale = (): string => {
+  if (Platform.OS === 'ios') {
+    const locale = NativeModules.SettingsManager?.settings?.AppleLocale ||
+                   NativeModules.SettingsManager?.settings?.AppleLanguages?.[0];
+    return locale?.split('_')[0] || 'en';
+  } else if (Platform.OS === 'android') {
+    const locale = NativeModules.I18nManager?.localeIdentifier;
+    return locale?.split('_')[0] || 'en';
+  }
+  return 'en';
+};
 
 /**
  * Validate and normalize language code
@@ -105,7 +119,7 @@ export const loadSavedLanguage = async (): Promise<SupportedLanguage> => {
     }
     
     // No saved language - try device locale
-    const deviceLocale = Localization.getLocales()[0]?.languageCode;
+    const deviceLocale = getDeviceLocale();
     const language = normalizeLanguage(deviceLocale);
     
     // Save this as the user's preference

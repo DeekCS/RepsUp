@@ -1,5 +1,8 @@
 // Utility functions
 
+// RTL styling utilities
+export { rtl, rtlStyles, rtlClass } from './rtl-styles';
+
 export const formatDate = (date: Date): string => {
   return date.toLocaleDateString('en-US', {
     month: 'short',

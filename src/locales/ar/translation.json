@@ -74,5 +74,26 @@
     "changeLanguage": "تغيير اللغة",
     "english": "الإنجليزية",
     "arabic": "العربية"
+  },
+  "workouts": {
+    "title": "التمارين",
+    "createNew": "إنشاء تمرين جديد",
+    "exerciseCount": "{{count}} تمرين",
+    "exerciseCount_plural": "{{count}} تمارين",
+    "duration": "{{minutes}} دقيقة",
+    "restTime": "راحة: {{seconds}} ثانية",
+    "setsReps": "{{sets}} مجموعات × {{reps}} تكرار",
+    "emptyState": "لا توجد تمارين بعد. أنشئ أول تمرين!",
+    "filters": {
+      "all": "الكل",
+      "favorites": "المفضلة",
+      "recent": "الأخيرة"
+    }
+  },
+  "errors": {
+    "networkError": "فشل الاتصال بالشبكة",
+    "authFailed": "فشلت المصادقة",
+    "invalidInput": "يرجى التحقق من المدخلات",
+    "serverError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
   }
 }

@@ -39,13 +39,7 @@
       }
     },
     "plugins": [
-      "expo-font",
-      [
-        "expo-localization",
-        {
-          "supportsRTL": true
-        }
-      ]
+      "expo-font"
     ]
   }
 }

@@ -115,7 +115,7 @@ export default function LoginScreen() {
                   {/* Divider */}
                   <View className="flex-row items-center">
                     <View className="flex-1 h-[1px] bg-white/30" />
-                    <Text className="text-white mx-4 text-base">
+                    <Text className="text-white text-base" style={{ marginHorizontal: 16 }}>
                       {t('auth.or', { defaultValue: 'Or' })}
                     </Text>
                     <View className="flex-1 h-[1px] bg-white/30" />

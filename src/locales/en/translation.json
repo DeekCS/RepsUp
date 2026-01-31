@@ -74,5 +74,26 @@
     "changeLanguage": "Change Language",
     "english": "English",
     "arabic": "Arabic"
+  },
+  "workouts": {
+    "title": "Workouts",
+    "createNew": "Create New Workout",
+    "exerciseCount": "{{count}} exercise",
+    "exerciseCount_plural": "{{count}} exercises",
+    "duration": "{{minutes}} min",
+    "restTime": "Rest: {{seconds}}s",
+    "setsReps": "{{sets}} sets × {{reps}} reps",
+    "emptyState": "No workouts yet. Create your first one!",
+    "filters": {
+      "all": "All",
+      "favorites": "Favorites",
+      "recent": "Recent"
+    }
+  },
+  "errors": {
+    "networkError": "Network connection failed",
+    "authFailed": "Authentication failed",
+    "invalidInput": "Please check your input",
+    "serverError": "Something went wrong. Please try again."
   }
 }

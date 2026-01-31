@@ -91,19 +91,19 @@ export default function VerifyOTPScreen() {
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
-          <Container className="flex-1 justify-between pt-16 pb-10">
+          <Container className="flex-1  justify-between pt-16 pb-10">
             {/* Header */}
             <View className="mt-8">
-              <Text className="text-white text-3xl font-bold mb-4">
+              <Text className="text-white text-left text-3xl font-bold mb-4">
                 {t('auth.verifyOtp.title')}
               </Text>
               <View className="mb-2">
-                <Text className="text-white text-base">
+                <Text className="text-white text-left text-base">
                   {t('auth.verifyOtp.subtitle', { phone: maskedPhone })}
                 </Text>
               </View>
               <Pressable onPress={handleEditPhone}>
-                <Text className="text-fadedOrange font-semibold text-base">
+                <Text className="text-fadedOrange text-left font-semibold text-base">
                   {t('common.edit')}
                 </Text>
               </Pressable>
@@ -161,7 +161,7 @@ export default function VerifyOTPScreen() {
                 {/* Resend OTP */}
                 <View className="mb-6">
                   {countdown > 0 ? (
-                    <Text className="text-white text-sm text-center">
+                    <Text className="text-white   text-sm text-center">
                       {t('auth.verifyOtp.resendIn')} ({countdown}s)
                     </Text>
                   ) : (

@@ -26,6 +26,16 @@ export {
   initializeRTL,
   isRTLInitialized,
   changeLanguageWithRTL,
+  // RTL styling utilities
+  textAlign,
+  flexDirection,
+  alignItems,
+  justifyContent,
+  padding,
+  margin,
+  position,
+  borderRadius,
+  transform,
   type RTLLanguage,
 } from './rtl';
 
