@@ -10,3 +10,4 @@ export { Stack } from './Stack';
 export { DirectionalIcon } from './DirectionalIcon';
 export { ScreenContainer } from './ScreenContainer';
 export { Container, ScrollContainer } from './Container';
+export { TopBar } from './TopBar';

@@ -29,7 +29,7 @@ export function PhoneInput({
   return (
     <View
       className={`bg-white rounded-3xl px-5 ${className}`}
-      style={[styles.container, { flexDirection: "row" }]}
+      style={[styles.container, { flexDirection: "row", direction: 'ltr' }]}
     >
       <Text className="text-xl" style={{ lineHeight: 20 }}>
         {countryFlag}

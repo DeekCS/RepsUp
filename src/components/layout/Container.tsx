@@ -22,6 +22,7 @@
 
 import React from 'react';
 import { View, ScrollView, ViewProps, ScrollViewProps, StyleSheet, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '@/src/styles/theme';
 
 // ============================================================================
@@ -107,7 +108,7 @@ export function Container({
 
 const styles = StyleSheet.create({
   base: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#FEF3F6', // vistaWhite - warm beige/cream
   },
   centered: {
     justifyContent: 'center',
@@ -123,10 +124,15 @@ const styles = StyleSheet.create({
  * Screen container with standard padding for tab screens
  */
 export function ScreenContainer({ children, ...props }: ContainerProps) {
+  const insets = useSafeAreaInsets();
+  
+  // Tab bar height: 64px base + bottom inset + 16px margin + 8px breathing room
+  const tabBarOffset = 64 + insets.bottom + 16 + 8;
+  
   return (
     <Container
-      paddingTop={64}  // Standard top padding
-      paddingBottom={112} // Tab bar height
+      paddingTop={0}  // No top padding - content starts at top
+      paddingBottom={tabBarOffset}
       {...props}
     >
       {children}

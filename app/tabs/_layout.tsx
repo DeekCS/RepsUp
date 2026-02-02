@@ -1,79 +1,41 @@
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { View, Platform } from 'react-native';
+import { View, Platform, Pressable } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HomeIcon, UsersIcon, CameraIcon, DumbbellIcon } from '@/src/components/icons/TabIcons';
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+  
+  // Tab bar height calculation (72px = 4.5rem)
+  const TAB_BAR_HEIGHT = 72;
+  const BOTTOM_MARGIN = 0;
   
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#5B5FEF',
-        tabBarInactiveTintColor: '#6B7280',
+        tabBarActiveTintColor: '#F99043', // Primary orange
+        tabBarInactiveTintColor: '#A79D95', // dustyGrey
         headerShown: false,
-        // RTL is handled automatically by React Navigation based on I18nManager.isRTL
+        tabBarShowLabel: false, // Hide labels for cleaner look
         tabBarStyle: {
           position: 'absolute',
-          backgroundColor: Platform.OS === 'ios' ? 'transparent' : '#FFFFFF',
+          backgroundColor: '#FBEEE4',
           borderTopWidth: 0,
-          height: Platform.OS === 'ios' ? 100 : 80,
-          paddingBottom: Platform.OS === 'ios' ? 34 : 16,
-          paddingTop: 12,
-          paddingHorizontal: 8,
-          marginHorizontal: 16,
-          marginBottom: Platform.OS === 'ios' ? 24 : 16,
-          borderRadius: 40,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 8,
-          },
-          shadowOpacity: 0.12,
-          shadowRadius: 20,
-          elevation: 10,
-        },
-        tabBarLabelStyle: {
-          fontSize: 13,
-          fontWeight: '500',
-          marginTop: 4,
+          height: TAB_BAR_HEIGHT,
+          paddingBottom: 0,
+          paddingTop: 16,
+          paddingHorizontal: 16,
+          marginHorizontal: 0,
+          marginBottom: BOTTOM_MARGIN,
+          borderRadius: 0,
+          shadowColor: 'transparent',
+          elevation: 0,
         },
         tabBarItemStyle: {
-          paddingVertical: 8,
-          paddingHorizontal: 4,
-          minWidth: 60,
+          paddingVertical: 0,
+          paddingHorizontal: 0,
         },
-        tabBarBackground: () => (
-          Platform.OS === 'ios' ? (
-            <BlurView
-              intensity={80}
-              tint="extraLight"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                overflow: 'hidden',
-                backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                borderRadius: 40,
-                borderWidth: 1,
-                borderColor: 'rgba(0, 0, 0, 0.05)',
-              }}
-            />
-          ) : (
-            <View style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: '#FFFFFF',
-              borderRadius: 40,
-              borderWidth: 1,
-              borderColor: '#F3F4F6',
-            }} />
-          )
-        ),
       }}
     >
       <Tabs.Screen
@@ -81,60 +43,67 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "home" : "home-outline"} 
-              size={24} 
-              color={color} 
-            />
+            <View style={{
+              width: 40, // 2.5rem
+              height: 40, // 2.5rem
+              padding: 8, // 0.5rem
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
+              backgroundColor: focused ? '#F99043' : 'transparent',
+            }}>
+              <HomeIcon 
+                width={24} 
+                height={24} 
+                color={focused ? '#FFFFFF' : color}
+              />
+            </View>
           ),
         }}
       />
       <Tabs.Screen
         name="progress"
         options={{
-          title: 'Search',
+          title: 'Progress',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "search" : "search-outline"} 
-              size={24} 
-              color={color} 
-            />
+            <View style={{
+              width: 40, // 2.5rem
+              height: 40, // 2.5rem
+              padding: 8, // 0.5rem
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
+              backgroundColor: focused ? '#F99043' : 'transparent',
+            }}>
+              <UsersIcon 
+                width={24} 
+                height={24} 
+                color={focused ? '#FFFFFF' : color}
+              />
+            </View>
           ),
         }}
       />
       <Tabs.Screen
         name="add"
         options={{
-          title: '',
-          tabBarIcon: ({ focused }) => (
-            <View className="items-center justify-center -mt-8">
-              <View className="w-16 h-16 rounded-full bg-[#5B5FEF] items-center justify-center shadow-lg" style={{
-                shadowColor: '#5B5FEF',
-                shadowOffset: { width: 0, height: 6 },
-                shadowOpacity: 0.4,
-                shadowRadius: 12,
-                elevation: 12,
-              }}>
-                <Ionicons 
-                  name="repeat" 
-                  size={30} 
-                  color="#FFFFFF" 
-                />
-              </View>
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="history"
-        options={{
-          title: 'History',
+          title: 'Add',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "time" : "time-outline"} 
-              size={24} 
-              color={color} 
-            />
+            <View style={{
+              width: 40, // 2.5rem
+              height: 40, // 2.5rem
+              padding: 8, // 0.5rem
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
+              backgroundColor: focused ? '#F99043' : 'transparent',
+            }}>
+              <CameraIcon 
+                width={24} 
+                height={24} 
+                color={focused ? '#FFFFFF' : color}
+              />
+            </View>
           ),
         }}
       />
@@ -143,12 +112,28 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "person" : "person-outline"} 
-              size={24} 
-              color={color} 
-            />
+            <View style={{
+              width: 40, // 2.5rem
+              height: 40, // 2.5rem
+              padding: 8, // 0.5rem
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
+              backgroundColor: focused ? '#F99043' : 'transparent',
+            }}>
+              <DumbbellIcon 
+                width={24} 
+                height={24} 
+                color={focused ? '#FFFFFF' : color}
+              />
+            </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          href: null, // Hide from tab bar
         }}
       />
     </Tabs>
