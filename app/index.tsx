@@ -1,25 +1,29 @@
-import { View, Text } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Index() {
   const router = useRouter();
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
-    // Navigate to login screen
-    const timeout = setTimeout(() => {
-      router.replace('/auth/login');
-    }, 1000);
+    if (isImageLoaded) {
+      const timeout = setTimeout(() => {
+        router.replace('/auth/login');
+      }, 1500);
 
-    return () => clearTimeout(timeout);
-  }, []);
+      return () => clearTimeout(timeout);
+    }
+  }, [isImageLoaded]);
 
   return (
-    <View className="flex-1 bg-indigo-600 items-center justify-center">
-      <StatusBar style="light" />
-      <Text className="text-4xl font-bold text-white">RepsUp</Text>
-      <Text className="text-white/80 mt-2">Loading...</Text>
+    <View style={{ flex: 1, backgroundColor: '#F99043', alignItems: 'center', justifyContent: 'center' }}>
+      <Image 
+        source={require('../assets/splash.png')} 
+        style={{ width: '100%', height: '100%' }}
+        resizeMode="contain"
+        onLoadEnd={() => setIsImageLoaded(true)}
+      />
     </View>
   );
 }
