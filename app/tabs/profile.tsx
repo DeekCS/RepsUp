@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Card } from '@/src/components/ui';
 import { ScreenContainer } from '@/src/components/layout';
+import { LanguageSwitcher } from '@/src/components/features/LanguageSwitcher';
 
 export default function ProfileScreen() {
   return (
@@ -23,6 +24,7 @@ export default function ProfileScreen() {
               <Text className="text-lg text-gray-900 mt-1">0</Text>
             </View>
           </View>
+           <LanguageSwitcher />
         </Card>
       </ScreenContainer>
     </View>

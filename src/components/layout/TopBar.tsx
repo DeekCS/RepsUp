@@ -123,11 +123,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 2,
+    textAlign: 'left',
   },
   locationSubtitle: {
     color: 'rgba(255, 255, 255, 0.85)',
     fontSize: 13,
     fontWeight: '400',
+    textAlign: 'left',
   },
   actionsContainer: {
     flexDirection: 'row',
