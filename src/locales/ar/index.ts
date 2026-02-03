@@ -106,6 +106,11 @@ const ar: TranslationKeys = {
     today: "اليوم",
     minutes: "دقيقة",
   },
+  matchablePartners: {
+    title: "العثور على شريك مناسب",
+    invite: "دعوة",
+    age: "العمر: {{age}}",
+  },
   errors: {
     networkError: "فشل الاتصال بالشبكة",
     authFailed: "فشلت المصادقة",

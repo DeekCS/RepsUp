@@ -108,7 +108,7 @@ export function Container({
 
 const styles = StyleSheet.create({
   base: {
-    backgroundColor: '#FEF3F6', // vistaWhite - warm beige/cream
+    backgroundColor: '#FFF', // vistaWhite - warm beige/cream
   },
   centered: {
     justifyContent: 'center',

@@ -104,6 +104,11 @@ const en = {
     today: "Today",
     minutes: "min",
   },
+  matchablePartners: {
+    title: "Find Matchable Partner",
+    invite: "Invite",
+    age: "Age: {{age}}",
+  },
   errors: {
     networkError: "Network connection failed",
     authFailed: "Authentication failed",
