@@ -1,4 +1,5 @@
 import { View, Text, Image, Pressable, ImageSourcePropType } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { LocationIcon, ChatIcon } from '@/src/components/icons';
 
 export interface Partner {
@@ -16,6 +17,8 @@ interface PartnerCardProps {
 }
 
 export function PartnerCard({ partner, onInvite, onChat }: PartnerCardProps) {
+  const { t } = useTranslation();
+  
   return (
     <View className="bg-[#FBF6F3] rounded-lg flex-row items-center w-full" style={{ height: 85, paddingHorizontal: 16, paddingVertical: 12 }}>
       {/* Left Section: Profile Image */}
@@ -31,7 +34,7 @@ export function PartnerCard({ partner, onInvite, onChat }: PartnerCardProps) {
         {/* Row 1: Name and Chat Icon */}
         <View className="flex-row items-center justify-between" >
           <Text 
-            className="text-[#362D26] font-medium flex-1"
+            className="text-[#362D26] font-medium flex-1 text-left"
             style={{ fontFamily: 'DMSans-Medium', fontSize: 14, lineHeight: 18 }}
           >
             {partner.name}
@@ -53,7 +56,7 @@ export function PartnerCard({ partner, onInvite, onChat }: PartnerCardProps) {
               className="text-[#A39A95]"
               style={{ fontFamily: 'DMSans-Regular', fontSize: 12, lineHeight: 16 }}
             >
-              Age: {partner.age}
+              {t('matchablePartners.age', { age: partner.age })}
             </Text>
             
             <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: '#A39A95', marginHorizontal: 6 }} />
@@ -76,7 +79,7 @@ export function PartnerCard({ partner, onInvite, onChat }: PartnerCardProps) {
               className="text-white font-semibold"
               style={{ fontFamily: 'DMSans-Bold', fontSize: 12 }}
             >
-              Invite
+              {t('matchablePartners.invite')}
             </Text>
           </Pressable>
         </View>
